@@ -10,7 +10,6 @@ class BoardController {
       const { name, columns } = req.body;
 
       const columnIds = await Column.insertMany(columns);
-      console.log("Ids", columnIds);
 
       const board = await Board.create({
         name,
