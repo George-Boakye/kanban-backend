@@ -9,28 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const models_1 = require("../models");
-const helpers_1 = require("../utils/helpers");
-const { successResponse } = helpers_1.ResponseHelper;
-class BoardController {
-    static addBoard(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
+const helpers_1 = require("../../utils/helpers");
+const { validateInput } = helpers_1.GenericHelper;
+class ValidationMiddleware {
+    /**
+     * @static
+     */
+    static validate(schema) {
+        return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const { name, columns } = req.body;
-                const columnIds = yield models_1.Column.insertMany(columns);
-                const board = yield models_1.Board.create({
-                    name,
-                    columns: columnIds.map((column) => column._id),
-                });
-                return successResponse(res, {
-                    data: board,
-                    code: 201,
-                });
+                yield validateInput(schema, req.body);
+                next();
             }
             catch (error) {
-                next(error);
+                res.status(404).json({
+                    error,
+                });
             }
         });
     }
 }
-exports.default = BoardController;
+exports.default = ValidationMiddleware;

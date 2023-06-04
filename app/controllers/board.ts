@@ -1,11 +1,11 @@
 import { Board, Column } from "../models";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { ResponseHelper } from "../utils/helpers";
 
-const { successResponse, errorResponse } = ResponseHelper;
+const { successResponse } = ResponseHelper;
 
 class BoardController {
-  static async addBoard(req: Request, res: Response) {
+  static async addBoard(req: Request, res: Response, next: NextFunction) {
     try {
       const { name, columns } = req.body;
 
@@ -20,7 +20,7 @@ class BoardController {
         code: 201,
       });
     } catch (error: any) {
-      console.log(error);
+      next(error);
     }
   }
 }

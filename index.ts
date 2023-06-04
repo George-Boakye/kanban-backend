@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import Logger from "logger";
 import mongoose from "mongoose";
@@ -26,6 +26,14 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api", apiRoutes);
+
+//Error Handler Middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (!err) {
+    err.status = 500;
+  }
+  res.status(err.status).send(err.message);
+});
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

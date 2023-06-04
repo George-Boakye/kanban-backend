@@ -26,6 +26,13 @@ app.get("/", (req, res) => {
     res.send("Welcome to Kanban Task Management App");
 });
 app.use("/api", index_1.default);
+//Error Handler Middleware
+app.use((err, req, res, next) => {
+    if (!err) {
+        err.status = 500;
+    }
+    res.status(err.status).send(err.message);
+});
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

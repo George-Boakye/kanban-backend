@@ -30,28 +30,7 @@ class ResponseHelper {
     });
   }
 
-  static apiErrLogMessage(error: Error, req: Request) {
-    return logger.error(
-      `${error.name} - ${error.status} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-    );
-  }
-
-  static errorResponse(req: Request, res: Response, error: Error) {
-    const aggregateError = { ...error };
-    ResponseHelper.apiErrLogMessage(aggregateError, req);
-    if (error.name === "CastError") {
-      return res.status(404).json({
-        status: FAIL,
-        message: NOT_FOUND_API,
-        errors: error.message,
-      });
-    }
-    return res.status(aggregateError.status).json({
-      status: FAIL,
-      message: aggregateError.message,
-      errors: aggregateError.errors,
-    });
-  }
+  static errorResponse(req: Request, res: Response, error: Error) {}
 }
 
 export default ResponseHelper;
