@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import { apiMessages } from "../constants";
-import { logger } from "../../..";
 
 const { SUCCESS_RESPONSE, SUCCESS, NOT_FOUND_API, FAIL } = apiMessages;
 
