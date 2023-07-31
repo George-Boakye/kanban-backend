@@ -19,7 +19,7 @@ interface iErrorResponse<T> {
 class ResponseHelper {
   static successResponse<T>(
     res: Response,
-    { data, message = SUCCESS_RESPONSE, code = 404 }: SuccessResponse<T>
+    { data, message = SUCCESS_RESPONSE, code = 200 }: SuccessResponse<T>
   ) {
     return res.status(code).json({
       status: SUCCESS,
