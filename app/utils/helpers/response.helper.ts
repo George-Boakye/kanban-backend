@@ -9,18 +9,17 @@ export interface SuccessResponse<T> {
   code?: number;
   data: T;
 }
-
-interface Error {
-  name: any;
-  status: any;
-  message: any;
-  errors: any;
+interface iErrorResponse<T> {
+  status?: string;
+  message?: string;
+  code?: number;
+  data?: T;
 }
 
 class ResponseHelper {
   static successResponse<T>(
     res: Response,
-    { data, message = SUCCESS_RESPONSE, code = 200 }: SuccessResponse<T>
+    { data, message = SUCCESS_RESPONSE, code = 404 }: SuccessResponse<T>
   ) {
     return res.status(code).json({
       status: SUCCESS,
@@ -29,7 +28,16 @@ class ResponseHelper {
     });
   }
 
-  static errorResponse(req: Request, res: Response, error: Error) {}
+  static errorResponse<T>(
+    res: Response,
+    { data, message = NOT_FOUND_API, code = 404 }: iErrorResponse<T>
+  ) {
+    return res.status(code).json({
+      status: FAIL,
+      message,
+      data,
+    });
+  }
 }
 
 export default ResponseHelper;
